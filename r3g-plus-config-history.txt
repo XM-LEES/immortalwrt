@@ -1,0 +1,55 @@
+R3G plus config history (single-file record)
+
+Base rules
+- Code base branch: openwrt-25.12-r3g-plus (from openwrt-25.12-r3g-base)
+- Target device: ramips/mt7621 -> xiaomi_mi-router-3g
+- Keep R3G hardware defaults (wifi/pcie/usb) unchanged.
+- .config is not committed; this file records config delta only.
+
+Stage 0 (all-in-one, recommended)
+- Date: 2026-03-06
+- Profile suffix: plus-openclash-zerotier-ttyd-zh-cn-argon
+- Config delta:
+  - CONFIG_TARGET_ramips=y
+  - CONFIG_TARGET_ramips_mt7621=y
+  - CONFIG_TARGET_ramips_mt7621_DEVICE_xiaomi_mi-router-3g=y
+  - CONFIG_PACKAGE_luci-app-openclash=y
+  - CONFIG_PACKAGE_luci-app-zerotier=y
+  - CONFIG_PACKAGE_zerotier=y
+  - CONFIG_PACKAGE_ttyd=y
+  - CONFIG_PACKAGE_luci-app-ttyd=y
+  - CONFIG_LUCI_LANG_zh_Hans=y
+  - CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+  - CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
+  - CONFIG_PACKAGE_luci-i18n-package-manager-zh-cn=y
+  - CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y
+  - CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
+  - CONFIG_PACKAGE_luci-theme-argon=y
+  - CONFIG_PACKAGE_luci-app-argon-config=y
+  - CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
+- Validation snapshot (local defconfig check):
+  - selectable and kept: openclash/zerotier/ttyd/argon + zh-cn packs above
+  - not included: cpufreq (package depends on arm/aarch64, R3G is mipsel_24kc)
+
+Apply this stage
+- cat > .config <<CFG
+  CONFIG_TARGET_ramips=y
+  CONFIG_TARGET_ramips_mt7621=y
+  CONFIG_TARGET_ramips_mt7621_DEVICE_xiaomi_mi-router-3g=y
+  CONFIG_PACKAGE_luci-app-openclash=y
+  CONFIG_PACKAGE_luci-app-zerotier=y
+  CONFIG_PACKAGE_zerotier=y
+  CONFIG_PACKAGE_ttyd=y
+  CONFIG_PACKAGE_luci-app-ttyd=y
+  CONFIG_LUCI_LANG_zh_Hans=y
+  CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+  CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
+  CONFIG_PACKAGE_luci-i18n-package-manager-zh-cn=y
+  CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y
+  CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
+  CONFIG_PACKAGE_luci-theme-argon=y
+  CONFIG_PACKAGE_luci-app-argon-config=y
+  CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
+  CFG
+- make defconfig
+- make -j$(nproc) V=s

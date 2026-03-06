@@ -37,6 +37,10 @@ case "$DISTRIB_TARGET" in
 	"mediatek/mt7622")
 		uci_write_config 0 ondemand 600000 1350000 10 50
 		;;
+	"ramips/mt7621")
+		# Keep stock floor (880MHz) and enable demand-based boost by default.
+		uci_write_config 0 schedutil 880000 1100000
+		;;
 	"qualcommax/ipq60xx"|\
 	"qualcommax/ipq807x")
 		uci_write_config 0 schedutil

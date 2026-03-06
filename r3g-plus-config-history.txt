@@ -29,7 +29,9 @@ Stage 0 (all-in-one, recommended)
   - CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
 - Validation snapshot (local defconfig check):
   - selectable and kept: openclash/zerotier/ttyd/argon + zh-cn packs above
-  - not included: cpufreq (package depends on arm/aarch64, R3G is mipsel_24kc)
+  - cpufreq note:
+    - On `openwrt-25.12-r3g-plus`, cpufreq package was arm/aarch64 only.
+    - On `openwrt-25.12-r3g-plus-oc`, cpufreq is enabled for mips/mipsel with MT7621 cpufreq driver.
 
 Apply this stage
 - cat > .config <<CFG

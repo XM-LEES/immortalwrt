@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Local Build <local@openwrt>
+Date: Fri, 6 Mar 2026 09:21:00 +0000
+Subject: [PATCH] mips: ralink: mt7621: enable cpufreq prerequisites
+
+MT7621 cpufreq depends on the generic MIPS cpufreq menu being visible:
+
+  if CPU_SUPPORTS_CPUFREQ && MIPS_EXTERNAL_TIMER
+    source "drivers/cpufreq/Kconfig"
+  endif
+
+For SOC_MT7621 these prerequisite symbols are not selected by default,
+so CONFIG_CPU_FREQ/CONFIG_MT7621_CPUFREQ from target config fragments
+are dropped as unknown and no cpufreq sysfs policy appears at runtime.
+
+Select the two prerequisite symbols for SOC_MT7621 to make cpufreq
+available for the MT7621 cpufreq driver.
+
+Signed-off-by: Local Build <local@openwrt>
+---
+ arch/mips/ralink/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/arch/mips/ralink/Kconfig
++++ b/arch/mips/ralink/Kconfig
+@@ -49,6 +49,8 @@ choice
+ 		select MIPS_GIC
+ 		select CLKSRC_MIPS_GIC
+ 		select HAVE_PCI
++		select CPU_SUPPORTS_CPUFREQ
++		select MIPS_EXTERNAL_TIMER
+ 		select PCI_DRIVERS_GENERIC
+ 		select SOC_BUS
+ 		select PINCTRL
